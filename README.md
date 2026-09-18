@@ -168,6 +168,6 @@ Sistema desarrollado siguiendo las mejores prácticas de PHP y arquitectura MVC.
 
 ---
 
-**Versión:** 1.0.0  
-**Última actualización:** 2024
+**Versión:** 3.4.0  
+**Última actualización:** 2026
 

@@ -1,0 +1,27 @@
+# XAMPP
+.htaccess.local
+
+# Uploads
+uploads/vigilantes/*/
+!uploads/vigilantes/.htaccess
+
+# Logs
+*.log
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Composer
+/vendor/
+composer.lock
+
+# Configuración local
+config/config.local.php
+

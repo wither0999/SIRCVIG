@@ -1,0 +1,44 @@
+# ANÁLISIS DE TECNOLOGÍAS - PROYECTO SIRCVIG
+Fecha: 28-01-2026
+Objetivo: Detallar el stack tecnológico utilizado en el desarrollo del sistema.
+
+## 1. BACKEND (LADO DEL SERVIDOR)
+El núcleo del sistema está construido sobre tecnologías robustas y ampliamente soportadas:
+
+- **Lenguaje Principal**: PHP (Versión 7.4 o superior).
+    - *Características*: Se utiliza PHP nativo (Vanilla PHP) sin frameworks pesados como Laravel o Symfony. Esto garantiza un rendimiento ligero y facilidad de despliegue en cualquier servidor compartido básico.
+    - *Arquitectura*: MVC (Modelo-Vista-Controlador) implementado manualmente.
+- **Gestión de Dependencias**: Composer.
+    - Se utiliza para la gestión de librerías externas.
+
+## 2. BASE DE DATOS
+- **Motor**: MySQL / MariaDB.
+    - **Conexión**: Se utiliza la librería **PDO** (PHP Data Objects) que ofrece una capa de seguridad robusta contra inyecciones SQL.
+    - **Codificación**: UTF8mb4 (Soporte completo para tildes, caracteres especiales y emojis).
+
+## 3. FRONTEND (INTERFAZ DE USUARIO)
+La interfaz es ligera y no depende de frameworks JavaScript complejos (como React o Vue), lógica renderizada desde el servidor (Server-Side Rendering):
+
+- **Estructura**: HTML5 Semántico.
+- **Estilos**: CSS3 Nativo (Vanilla CSS).
+    - Se utiliza un archivo unificado `estilos.css` con variables CSS para el manejo de colores.
+    - Diseño **Responsive** (Adaptable a móviles y tablets) mediante @media queries.
+- **Iconografía**: FontAwesome 6.4.0 (Vía CDN).
+    - Provee los iconos vectoriales para los menús y botones.
+- **JavaScript**: Javascript Nativo (Vanilla JS).
+    - Usado para interacciones puntuales en el navegador.
+
+## 4. LIBRERÍAS EXTERNAS
+- **FPDF** (setasign/fpdf):
+    - Motor de generación de archivos PDF. Utilizado específicamente para crear los reportes imprimibles del Cronograma de Guardias.
+
+## 5. INFRAESTRUCTURA DE DESPLIEGUE
+- **Servidor Web**: Apache HTTP Server.
+    - Configurado mediante archivos `.htaccess` para el manejo de rutas amigables (URL Rewrite).
+- **Entorno Local**: XAMPP (Apache + MySQL + PHP).
+
+## RESUMEN
+Sircvig es una aplicación **monolítica ligera**. Su decisión de no usar frameworks pesados le otorga:
+1. **Velocidad**: Carga muy rápida al no tener que procesar miles de archivos de framework.
+2. **Portabilidad**: Funciona en casi cualquier hosting económico o servidor local con requisitos mínimos.
+3. **Mantenibilidad**: Código transparente donde cada archivo cumple una función específica sin "magia" oculta de librerías complejas.

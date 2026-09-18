@@ -1,0 +1,80 @@
+# FLUJO DE TRABAJO FUNCIONAL DEL SISTEMA SIRCVIG
+Fecha: 28-01-2026
+Objetivo: Descripción del funcionamiento del software desde la perspectiva del usuario.
+
+## 1. INTRODUCCIÓN
+El sistema SIRCVIG está diseñado para centralizar y simplificar la gestión operativa de una empresa de vigilancia. Su flujo de trabajo se divide en tres pilares: **Recursos Humanos** (Vigilantes), **Operaciones** (Asignaciones) y **Gerencia** (Reportes).
+
+---
+
+## 2. INICIO DE SESIÓN Y SEGURIDAD
+**El Primer Paso:**
+Todo usuario debe ingresar con sus credenciales (Usuario y Contraseña).
+- **Seguridad**: Si un usuario intenta ingresar claves incorrectas más de 5 veces, el sistema bloqueará su cuenta automáticamente por seguridad.
+- **Roles**: Dependiendo del usuario, el sistema mostrará diferentes opciones:
+    - **Administrador**: Ve todo y puede modificar todo.
+    - **Secretario**: Puede registrar y editar vigilantes, pero no ve sus antecedentes penales.
+    - **Supervisor**: Solo puede ver información y cronogramas, no puede hacer cambios.
+
+---
+
+## 3. PASO 1: GESTIÓN DE PERSONAL (MÓDULO DE VIGILANTES)
+Antes de asignar servicios, se debe alimentar la base de datos de personal.
+
+### A. Registro de Nuevo Ingreso
+El usuario accede a "Registrar Vigilante" e ingresa la información del expediente:
+1. **Datos Personales**: Cédula, Nombres, Dirección Completa, Teléfono.
+    - *Validación*: El sistema verifica que la persona sea mayor de edad (18-100 años) y que la cédula o teléfono no estén duplicados.
+2. **Digitalización de Documentos**: En el mismo formulario, se suben las fotos de:
+    - Foto tipo carnet.
+    - Cédula escaneada.
+    - Antecedentes Penales (Documento sensible).
+3. **Estatus Inicial**: Al crearse, el vigilante queda como "Aspirante" o "Activo" según se decida.
+
+### B. Consulta de Expedientes
+El usuario puede buscar vigilantes por nombre o cédula en un listado rápido.
+- **Ficha Personal**: Al hacer clic en un vigilante, se abre una "hoja de vida" digital con todos sus datos y documentos escaneados listos para visualizar.
+
+---
+
+## 4. PASO 2: OPERACIONES (MÓDULO DE ASIGNACIONES)
+Este es el corazón del sistema, donde se organiza el trabajo diario.
+
+### A. Crear una Asignación (Turno)
+El usuario selecciona:
+1. **Vigilante**: De la lista de personal activo.
+2. **Puesto**: Cliente o ubicación donde prestará servicio.
+3. **Horario de Inicio**: Fecha y hora (Solo permite turnos de 06:00 AM o 06:00 PM).
+4. **Rol de Guardia**: El esquema de trabajo (ej. 24x48, 5x2, 12x24).
+
+### B. Inteligencia del Sistema (Detección de Conflictos)
+Aquí actúa la "magia" del sistema. Al intentar guardar, el software analiza automáticamente:
+- **¿Está ocupado?**: Revisa si el vigilante ya está trabajando en otro puesto en esa fecha.
+- **¿Está descansando?**: Calcula si, según su guardia anterior, el vigilante debería estar en su periodo de descanso obligatorio.
+- **Resultado**: Si hay conflicto, el sistema **bloquea la asignación** y muestra una alerta roja explicando la razón (ej. "Vigilante en descanso hasta mañana a las 6:00 PM"). Si todo está bien, la asignación se guarda.
+
+---
+
+## 5. PASO 3: GERENCIA Y REPORTES (VISUALIZACIÓN)
+
+### A. Cronograma de Guardias
+Una vista tipo calendario que muestra quién está dónde.
+- Se puede filtrar por quincenas (1ra o 2da de cada mes) o fechas personalizadas.
+- Permite ver rápidamente la cobertura de puestos.
+
+### B. Exportación
+Con un solo clic, se puede generar un **PDF del Cronograma** listo para imprimir y pegar en cartelera o enviar por correo a los clientes.
+
+### C. Dashboard (Panel Principal)
+Al entrar, los gerentes ven indicadores clave (KPIs) en tiempo real:
+- Total de vigilantes activos e inactivos.
+- Cuántos puestos están cubiertos actualmente.
+- Cuántas asignaciones están vigentes este mes.
+
+---
+
+## RESUMEN DEL FLUJO DIARIO
+1. **Llegada**: Revisar el Dashboard para ver el estado general.
+2. **Novedades**: Registrar nuevos ingresos o actualizar datos de vigilantes.
+3. **Planificación**: Crear las asignaciones para la próxima semana. El sistema evitará errores de doble turno.
+4. **Cierre**: Imprimir el cronograma y distribuirlo.

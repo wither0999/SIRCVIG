@@ -1,0 +1,76 @@
+# ANÁLISIS DETALLADO DEL PROYECTO SIRCVIG
+Fecha: 28-01-2026
+Solicitado por: Usuario
+
+## 1. RESUMEN GENERAL
+El proyecto "SIRCVIG" (Sistema de Registro y Control de Vigilantes) es una aplicación web desarrollada en PHP nativo siguiendo el patrón de arquitectura MVC (Modelo-Vista-Controlador). Su objetivo principal es la gestión de personal de seguridad, expedientes, y la asignación de turnos a puestos de vigilancia, con un fuerte énfasis en la detección de conflictos de horario.
+
+- **Tecnología**: PHP (sin frameworks externos pesados), MySQL, HTML/CSS/JS.
+- **Entrada Principal**: `index.php` (Enrutamiento dinámico).
+- **Control**: Sesiones nativas de PHP y Roles (Administrador, Secretario, Supervisor).
+
+## 2. ESTRUCTURA DEL DIRECTORIO
+La organización del código es modular y limpia:
+
+- **/config**: Archivos de configuración (`config.php`) y autocarga de clases (`autoload.php`). Aquí se definen constantes globales como la conexión a BD y rutas.
+- **/core**: Clases base del framework propio (`ControladorPrincipal.php`, `Modelo.php`).
+- **/controllers**: Lógica de negocio. Cada archivo maneja un módulo (Login, Asignación, Expediente, Dashboard).
+- **/models**: Acceso a datos. Clases que encapsulan las consultas SQL (`Vigilante.php`, `Asignacion.php`, etc.).
+- **/views**: Interfaz de usuario. Archivos PHP que generan el HTML.
+- **/assets**: Recurso estáticos (CSS, JS, Imágenes).
+- **/uploads**: Almacenamiento de archivos subidos (fotos, documentos de vigilantes).
+
+## 3. ANÁLISIS DE FLUJOS DE TRABAJO (WORKFLOWS)
+
+### A. Autenticación y Seguridad (Login)
+1. **Acceso**: El usuario accede a la raíz (`/`). `ControladorLogin` verifica si hay sesión activa.
+2. **Proceso**:
+    - Se envían credenciales vía POST.
+    - `Usuario::autenticarUsuario()` verifica hash de contraseña.
+    - Se crean variables de sesión (`$_SESSION['usuario_id']`, `id_rol`, etc.).
+3. **Roles**: El sistema maneja 3 niveles de acceso que limitan las acciones en otros controladores:
+    - Admin: Acceso total.
+    - Secretario: Gestión operativa (sin ver antecedentes sensibles).
+    - Supervisor: Solo lectura y consultas.
+
+### B. Gestión de Expedientes (Vigilantes)
+Ubicación: `ControladorExpediente.php`
+1. **Registro**:
+    - Formulario con validaciones estrictas: Cédula venezolana, Edad (18-100), Teléfono único.
+    - **Subida de Archivos**: Se procesan Foto, Cédula y Antecedentes. Se guardan en `/uploads/vigilantes/{cedula}/` y se registran en la tabla `documentos`.
+2. **Listado y Búsqueda**: Vista con buscador en tiempo real.
+3. **Edición**: Permite modificar datos personales.
+4. **Eliminación**:
+    - **Transaccional**: Usa transacciones de base de datos (`beginTransaction`/`commit`) para asegurar que si borras un vigilante, también se borren sus asignaciones y referencias de documentos para mantener la integridad.
+
+### C. Asignación de Puestos y Cronograma
+Ubicación: `ControladorAsignacion.php`
+Este es el módulo más complejo y crítico del sistema.
+
+1. **Visualización de Disponibilidad**:
+    - El sistema calcula el estado de cada vigilante activo.
+    - Estados: DISPONIBLE, OCUPADO (en turno), BLOQUEADO (en descanso obligatorio).
+2. **Lógica de Asignación**:
+    - Al asignar, se selecciona un Rol de Guardia (24x48, 12x24, etc.).
+    - **Cálculo de Fechas**: El sistema calcula automáticamente la fecha de fin basada en el rol elegido.
+    - **Validación de Conflictos**: Antes de guardar, `modeloAsignacion->verificarConflicto()` consulta si las fechas se solapan con asignaciones existentes.
+    - Lógica de horas: Valida que los turnos empiecen a las 06:00 AM/PM.
+3. **Cronograma**:
+    - Visualización por quincenas o fechas personalizadas.
+    - Exportación a PDF usando la librería FPDF.
+
+## 4. BASE DE DATOS
+Estructura relacional clásica:
+- **usuarios/roles**: Control de acceso.
+- **vigilantes**: Tabla maestra de empleados.
+- **documentos**: Relación 1:N con vigilantes para archivos.
+- **puestos**: Ubicaciones físicas de trabajo.
+- **asignaciones**: Tabla central que vincula Vigilante + Puesto + Fechas.
+
+## 5. OBSERVACIONES TÉCNICAS
+- **Seguridad**: Se observa uso de sentencias preparadas (PDO) lo cual protege contra inyección SQL. Las contraseñas se almacenan con hash.
+- **Mantenibilidad**: El código está bien comentado y sigue estándares PSR básicos (nombres de clases, autoloading).
+- **Robustez**: El uso de bloques `try-catch` en procesos críticos (como el login o eliminación masiva) demuestra buenas prácticas de manejo de errores.
+
+## CONCLUSIÓN
+Sircvig es un sistema robusto para su escala. Su flujo de trabajo está diseñado para minimizar errores humanos, especialmente en la asignación de guardias mediante la validación automática de solapamiento de horarios.

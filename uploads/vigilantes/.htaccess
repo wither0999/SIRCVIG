@@ -1,0 +1,9 @@
+# Proteger directorio de uploads
+Options -Indexes
+
+# Permitir acceso solo a archivos específicos
+<FilesMatch "\.(jpg|jpeg|png|pdf)$">
+    Order allow,deny
+    Allow from all
+</FilesMatch>
+

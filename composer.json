@@ -1,0 +1,12 @@
+{
+    "name": "sircvig/sistema",
+    "description": "Sistema de Gestión de Vigilancia",
+    "type": "project",
+    "require": {
+        "php": ">=7.4"
+    },
+    "suggest": {
+        "setasign/fpdf": "Para generar reportes PDF (opcional)"
+    }
+}
+

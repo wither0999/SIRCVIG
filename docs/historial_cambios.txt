@@ -1,0 +1,49 @@
+# HISTORIAL DE CAMBIOS Y EVOLUCIÓN - PROYECTO SIRCVIG
+Fecha de Generación: 28-01-2026
+
+Este documento registra cronológicamente los hitos importantes, correcciones y nuevas implementaciones realizadas en el sistema.
+
+## 📅 28 de Enero de 2026 (Sesión Actual)
+
+### 📊 Documentación Integral
+- **Generación de Análisis de Código (`analisis_sircvig.txt`)**: Se realizó una auditoría completa de la estructura MVC, controladores y seguridad, documentando técnicamente el proyecto.
+- **Creación de Flujo Funcional (`flujo_funcional_sircvig.txt`)**: Se abstrajo la lógica del sistema en un lenguaje no técnico para explicar "cómo se usa" el software a un usuario final.
+- **Reporte Tecnológico (`tecnologias_sircvig.txt`)**: Se detalló la infraestructura (PHP 7.4, MySQL, Apache) y librerías externas.
+
+### 🐛 Corrección de Persistencia del Rol de Guardia
+- **Problema Detectado**: El sistema no guardaba correctamente el "Rol de Guardia" (ej. 24x48) seleccionado al crear una asignación.
+- **Solución Implementada**:
+    - **Backend**: Se corrigió la captura de `$_POST['rol_guardia']` en el `ControladorAsignacion.php`.
+    - **Base de Datos**: Verificación de integridad en la tabla `asignaciones`.
+    - **Frontend**: Se aseguró que el `<select>` enviara el atributo `name` correcto.
+- **Resultado**: Ahora el rol se guarda permanentemente y se refleja en el cronograma.
+
+### 🐛 Visualización de Datos en Cronograma
+- **Implementación**: Se ajustó `cronograma_guardia.php` para recuperar y mostrar la columna `rol_guardia` que antes aparecía vacía o no existía.
+
+---
+
+## 📅 24 de Enero de 2026
+
+### 🎨 Refactorización Visual (UI/UX)
+- **Módulo de Configuración de Puestos**:
+    - **Rediseño de Tarjetas**: Se transformó la vista de detalles del puesto (`detalles_puesto.php`) a un diseño moderno basado en tarjetas ("Cards").
+    - **Organización**: Se agruparon botones de acción ("Volver", "Editar") y se estandarizaron tamaños de iconos para evitar saltos visuales.
+    - **Estética**: Implementación de bordes suaves y sombras ligeras (Glassmorphism sutil).
+
+### 🔐 Rediseño de Login
+- **Nuevo Formulario de Acceso**:
+    - Se actualizó la estética de la pantalla de inicio de sesión para hacerla más profesional y alineada con la identidad corporativa.
+
+### ✅ Aprobación de Planificación
+- Se consolidaron los requerimientos iniciales y se dio luz verde a la refactorización del código base para mejorar la mantenibilidad.
+
+---
+
+## 📅 Previo al 24 de Enero (Fase Inicial)
+
+### 🚀 Lanzamiento Versión 1.0 (MVP)
+- **Implementación del Core MVC**: Creación de la estructura base (Modelos, Vistas, Controladores).
+- **Módulo de Vigilantes**: CRUD completo (Crear, Leer, Actualizar, Borrar) con subida de archivos.
+- **Algoritmo de Conflictos**: Desarrollo de la lógica `verificarConflicto()` para impedir asignación de guardias doble turno.
+- **Dashboard**: Creación de KPIs básicos.
